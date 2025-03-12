@@ -49,3 +49,18 @@ Steps to Implement:
 3. Fetch Users
    Use the axios library to make a GET request to the GitHub API to search for users.
    Update the state with the fetched users.
+
+4. Fetch Repositories
+   When a user is selected, make a GET request to fetch their repositories.
+   Update the state with the fetched repositories.
+
+5. Display Data
+   Render the list of repositories in the Accordion component.
+   Render the list of repositories in the AccordionContent component.
+
+6. Styling
+   Use Tailwinds & SahcdnUI to style the components and make the application visually appealing.
+
+7. Hosting
+   Deploy the application to GitHub Pages.
+   Ensure the application is publicly accessible by URL.
