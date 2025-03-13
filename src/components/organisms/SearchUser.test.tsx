@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/vitest"; // Extend Vitest with jest-dom matchers
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { SearchUser } from "@/components/organisms/SearchUser";
 import { vi } from "vitest";
 
@@ -28,9 +28,7 @@ describe("SearchUser", () => {
   });
 
   it("renders the search input and button", () => {
-    expect(
-      screen.getByPlaceholderText("Search GitHub users...")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Search GitHub users...")).not.toBeNull;
+    expect(screen.getByRole("button", { name: "Search" })).not.toBeNull;
   });
 });
