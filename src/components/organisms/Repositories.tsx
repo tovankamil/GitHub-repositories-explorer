@@ -9,27 +9,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { FolderGit } from "lucide-react";
 
 import Loading from "./Loading";
+import { useEffect, useState } from "react";
+import { getUserRepos } from "@/services/github";
 
 const Repositories = ({
-  onSelectUser,
-
+  onSelected,
+  setOnSelected,
   users,
-  repos,
-  loadingContent,
+  setError,
 }: {
-  onSelectUser: (username: string) => void;
-
+  onSelected: string;
+  setOnSelected: (username: string) => void;
+  setError: (errors: string) => void;
   users: any;
-  repos: any;
-  loadingContent: boolean;
 }) => {
+  const [repos, setRepos] = useState<any[]>([]);
+  const [loadingContent, setLoadingContent] = useState(false);
+  useEffect(() => {
+    const fetchRepos = async () => {
+      if (onSelected) {
+        setRepos([]);
+        setError("");
+        setLoadingContent(true);
+        try {
+          const repos = await getUserRepos(onSelected);
+          setRepos(repos);
+          setLoadingContent(false);
+        } catch (err) {
+          setLoadingContent(false);
+          setError("Failed to fetch repositories");
+        } finally {
+          setLoadingContent(false);
+        }
+      }
+    };
+    fetchRepos();
+  }, [onSelected]);
   return (
-    <div className="hover:cursor-pointer">
+    <div className="hover:cursor-pointer mt-4">
       <Accordion type="single" collapsible>
         {users.map((user: any, i: number) => (
           <AccordionItem value={user.login} key={i}>
             <AccordionTrigger
-              onClick={() => onSelectUser(user.login)}
+              onClick={() => setOnSelected(user.login)}
               className="hover:cursor-pointer hover:bg-gray-100  p-4"
             >
               <Avatar>

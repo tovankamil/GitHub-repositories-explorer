@@ -4,14 +4,13 @@ export const handlers = async ({
   query,
   setLoading,
   setError,
-  setUsers,
+  userData,
   setNotFound,
 }: {
   setLoading: (loading: boolean) => void;
   setError: (error: string) => void;
-  setUsers: (users: any[]) => void;
+  userData: (users: any[]) => void;
   setNotFound: (data: boolean) => void;
-
   query?: string | null;
 }) => {
   try {
@@ -22,7 +21,7 @@ export const handlers = async ({
     setError("");
     const users = await searchUsers(query);
     if (users?.length > 0) {
-      setUsers(users);
+      userData(users);
       setLoading(false);
     }
     if (users?.length < 1) {

@@ -2,42 +2,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { clearSearch, handlers } from "@/handlers/actions";
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getUserRepos } from "../../services/github";
-import NotFound from "../atoms/NotFound";
-import Loading from "./Loading";
-import Repositories from "./Repositories";
+import { useState } from "react";
 
-export const SearchUser = () => {
+export const SearchUser = ({
+  userData,
+  loading,
+  setLoading,
+  setNotFound,
+  setError,
+}: {
+  loading: boolean;
+  userData: (users: any[]) => void;
+  setLoading: (users: boolean) => void;
+  setNotFound: (data: boolean) => void;
+  setError: (errors: string) => void;
+}) => {
   const [query, setQuery] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(false);
-  const [notFound, setNotFound] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [users, setUsers] = useState<any[]>([]);
-  const [repos, setRepos] = useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchRepos = async () => {
-      if (selectedUser) {
-        setRepos([]);
-        setError("");
-        setLoadingContent(true);
-        try {
-          const repos = await getUserRepos(selectedUser ?? "");
-          setRepos(repos);
-          setLoadingContent(false);
-        } catch (err) {
-          setLoadingContent(false);
-          setError("Failed to fetch repositories");
-        } finally {
-          setLoadingContent(false);
-        }
-      }
-    };
-    fetchRepos();
-  }, [selectedUser]);
+  const [, setUsers] = useState<any[]>([]);
 
   return (
     <div className="space-y-4">
@@ -54,7 +36,7 @@ export const SearchUser = () => {
                 query,
                 setLoading,
                 setError,
-                setUsers,
+                userData,
                 setNotFound,
               })
             }
@@ -75,7 +57,7 @@ export const SearchUser = () => {
               query,
               setLoading,
               setError,
-              setUsers,
+              userData,
               setNotFound,
             })
           }
@@ -85,22 +67,6 @@ export const SearchUser = () => {
           Search
         </Button>
       </div>
-
-      {/* Repositories */}
-      {error && <p className="text-red-500">{error}</p>}
-      {loading ? (
-        <Loading type="search" />
-      ) : !notFound ? (
-        <Repositories
-          loadingContent={loadingContent}
-          onSelectUser={setSelectedUser}
-          repos={repos}
-          users={users}
-          key={1}
-        />
-      ) : (
-        <NotFound />
-      )}
     </div>
   );
 };
