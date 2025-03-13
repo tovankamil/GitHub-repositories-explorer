@@ -10,7 +10,7 @@ export default defineConfig({
     globals: true, // Enable global test functions (describe, it, expect, etc.)
   },
   plugins: [react(), tailwindcss(), Inspect()],
-  base: "/github-user-search",
+  base: "/GitHub-repositories-explorer",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
