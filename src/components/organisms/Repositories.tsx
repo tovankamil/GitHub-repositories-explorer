@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-import { FolderGit } from "lucide-react";
+import { FolderGit, Star } from "lucide-react";
 
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
@@ -70,12 +70,19 @@ const Repositories = ({
                       href={repo.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-row space-x-4 border-accent-foreground"
+                      className="flex flex-row border-accent-foreground justify-between"
                     >
-                      <FolderGit size={24} />{" "}
-                      <h5 className="font-semibold text-gray-700 hover:text-blue-700">
-                        {repo.name}
-                      </h5>
+                      <div className="flex flex-row space-x-4 ">
+                        <FolderGit size={24} />{" "}
+                        <h5 className="font-semibold text-gray-700 hover:text-blue-700">
+                          {repo.name}
+                        </h5>
+                      </div>
+
+                      <div className="flex flex-row items-center space-x-1">
+                        <span> {repo.stargazers_count}</span>
+                        <Star className="fill-yellow-400 stroke-0 w-4 h-4" />
+                      </div>
                     </a>
                   </li>
                 ))}
